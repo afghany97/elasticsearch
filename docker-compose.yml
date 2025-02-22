@@ -5,21 +5,13 @@ services:
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
-      - ELASTIC_PASSWORD=oauFcQ-WiwCakfbv*id1
       - xpack.security.enabled=true
     ports:
       - "9200:9200"
       - "9300:9300"
     volumes:
       - esdata:/usr/share/elasticsearch/data
-      - ./products_large.json:/usr/share/elasticsearch/products_large.json
       - ./startup.sh:/usr/share/elasticsearch/startup.sh
-    entrypoint: ["/bin/bash", "-c", "/usr/share/elasticsearch/startup.sh"]
-    healthcheck:
-      test: [ "CMD", "curl", "-u", "elastic:$ELASTIC_PASSWORD", "-k", "http://localhost:9200/_cluster/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
 
 volumes:
   esdata:
